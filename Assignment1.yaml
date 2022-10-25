@@ -1,0 +1,236 @@
+swagger: '2.0'
+info:
+  description: Share your experience with your close friends.
+  title: Airbnb
+  version: 1.0.0
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /users:
+    post:
+      tags:
+        - user
+      consumes:
+        - application/json
+      description: Request to create a new user.
+      summary: Create user
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad Request
+    get:
+      tags:
+        - user
+      description: get all the users.
+      summary: Get all the users
+      responses:
+        '200':
+          description: List contains all the users. 
+          schema:
+            $ref: '#/definitions/User'
+          
+    
+    put:
+      tags:
+        - user
+      summary: Update a user
+      description: Update a user by id
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+      
+  /users/{UserId}:
+    get:
+      tags:
+        - user
+      summary: get a single user
+      description: get user by id.
+      parameters:
+        - name: UserId
+          in: path
+          description: ID of the user to return
+          required: true
+          type: number
+      responses:
+        '200':
+          description: Single 
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Not found user
+
+  /reviews:
+    get:
+      tags:
+        - review
+      description: Get all the reviews
+      summary: Get all the reviews
+      responses:
+        '200':
+          description: List contains all the reviews submitted. 
+          schema:
+            $ref: '#/definitions/Review'
+    
+    post:
+      tags:
+        - review
+      consumes:
+        - application/json
+      description: Request to create a new review.
+      summary: Create review
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Review'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Review'
+        '400':
+          description: Bad Request
+        
+    put:
+      tags:
+        - review
+      consumes:
+        - application/json
+      description: Update a review.
+      summary: Update a review
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Review'
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Review'
+        '400':
+          description: Bad Request
+    
+    
+definitions:
+  Address:
+    properties:
+      country:
+        description: The country code.
+        type: string
+      countryName:
+        description: The country name.
+        type: string
+      stateName:
+        description: The state name.
+        type: string
+      city:
+        description: The locality.
+        type: string
+      zip:
+        description: The zip code.
+        type: string
+      addressLine1:
+        description: The street address.
+        type: string
+      addressLine2:
+        description: The extended street address (APT, P.O, etc).
+        type: string
+    required:
+      - country
+      - countryName
+      - city
+      - addressLine1
+  
+  Location:
+    required:
+      - accomodation_type
+    properties:
+      accomodation_type:
+        type: array
+        items:
+          type: string
+          enum:
+            - POI
+            - Accomodation
+  
+  Review:
+    properties:
+      review_content:
+        description: Review to a visited location
+        type: string
+      location:
+        $ref: '#/definitions/Location'
+    required:
+      - location
+      
+    
+  User:
+    properties:
+      UserId:
+        description: Unique identifier of the User
+        type: integer
+      firstName:
+        description: The first name.
+        type: string
+      lastName:
+        description: The last name.
+        type: string
+      email:
+        description: The email.
+        type: string
+      phone:
+        properties:
+          countryCode:
+            description: The country code of the user phone number.
+            type: number
+          phoneNumber:
+            description: The student phone number.
+            type: string
+        required:
+          - countryCode
+          - phoneNumber
+      address:
+        $ref: '#/definitions/Address'
+      visited_location:
+        description: Name of locations that User visited before
+        type: array
+        items:
+          $ref: '#/definitions/Location'
+      reviews:
+        description: Reviews of the location User visited or submitted
+        type: array
+        items:
+          $ref: '#/definitions/Review'
+    required:
+      - firstName
+      - phone
+      - email
+      - UserId

@@ -1,0 +1,165 @@
+{
+  "title": "Airbnb",
+  "description": "Hospitality Company that serves millions of users",
+  "type": "object",
+  "required": [
+    "data",
+    "meta"
+  ],
+  "properties": {
+    "data": {
+      "type": "object",
+      "user": {
+        "type": "object",
+        "required": [
+          "firstName",
+          "phone",
+          "email",
+          "UserId"
+        ],
+        "properties": {
+          "UserId": {
+            "description": "Unique identifier of the User",
+            "type": "integer"
+          },
+          "firstName": {
+            "description": "The first name.",
+            "type": "string"
+          },
+          "lastName": {
+            "description": "The last name.",
+            "type": "string"
+          },
+          "email": {
+            "description": "The email.",
+            "type": "string"
+          },
+          "phone": {
+            "properties": {
+              "countryCode": {
+                "description": "The country code of the user phone number.",
+                "type": "number"
+              },
+              "phoneNumber": {
+                "description": "The student phone number.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "countryCode",
+              "phoneNumber"
+            ]
+          },
+          "reviews": {
+            "properties": {
+              "description": "Reviews of locations that User visited before",
+              "type": "array",
+              "items": {
+                "properties": {
+                  "review_id": {
+                    "type": "number"
+                }
+              }
+            }
+            }
+          },
+          "visited_location": {
+            "properties": {
+              "description": "Name of locations that User visited before",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "review": {
+        "properties": {
+          "description": "Review of the location User visited or submitted",
+          "review_content": {
+            "type": "string"
+          },
+          "location_name": {
+            "type": "string"
+          }
+        }
+      },
+      "locations": {
+        "type": "object",
+        "required": ["accomodation_type"],
+        "properties": {
+          "accomodation_type": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["POI", "Accomodation"]
+            }
+          }
+        }
+      },
+      "address": {
+        "properties": {
+          "country": {
+            "description": "The country code.",
+            "type": "string"
+          },
+          "countryName": {
+            "description": "The country name.",
+            "type": "string"
+          },
+          "stateName": {
+            "description": "The state name.",
+            "type": "string"
+          },
+          "city": {
+            "description": "The locality.",
+            "type": "string"
+          },
+          "zip": {
+            "description": "The zip code.",
+            "type": "string"
+          },
+          "addressLine1": {
+            "description": "The street address.",
+            "type": "string"
+          },
+          "addressLine2": {
+            "description": "The extended street address (APT, P.O, etc).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "country",
+          "countryName",
+          "city",
+          "addressLine1"
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "createdAt",
+        "updatedAt",
+        "language"
+      ],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "examples": [
+            "2018-10-04T13:31:39.832Z"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "examples": [
+            "2018-10-04T13:31:39.832Z"
+          ]
+        }
+      }
+    }
+  }
+}
